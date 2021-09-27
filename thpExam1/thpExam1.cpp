@@ -75,6 +75,14 @@ int main(int argc, char** argv)
     }
 
     fin >> img.magicNumber;
+    if ((img.magicNumber != "P3") && (img.magicNumber != "P6"))
+    {
+        cout << "Invalid Magic Numbers" << endl
+             << "Valid Magic Numbers: P3 and P6";
+        return 0;
+    }
+
+
     fin.ignore();
     fin >> comment;
     while (comment == "#")

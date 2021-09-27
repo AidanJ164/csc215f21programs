@@ -1,6 +1,6 @@
 #include "netPBM.h"
 
-bool createArray(pixel** array, int rows, int cols)
+bool createArray(pixel** &array, int rows, int cols)
 {
     int i;
     int j;
@@ -30,7 +30,7 @@ bool createArray(pixel** array, int rows, int cols)
     return true;
 }
 
-void clearArray(pixel** array, int rows)
+void clearArray(pixel** &array, int rows)
 {
     int i;
 

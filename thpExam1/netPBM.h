@@ -20,8 +20,8 @@ struct image
 
 bool openFile(ifstream& fin, string input, ofstream& fout, string output);
 void closeFile(ifstream& fin, ofstream& fout);
-bool createArray(pixel** array, int rows, int cols);
-void clearArray(pixel** array, int rows);
+bool createArray(pixel** &array, int rows, int cols);
+void clearArray(pixel** &array, int rows);
 
 
 #endif
