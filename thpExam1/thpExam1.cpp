@@ -6,11 +6,15 @@ int main(int argc, char** argv)
     string basename;
     string baseimage;
     string format;
-    string comment;
+    int i;
+    int j;
+    int pixel;
     int value;
+    int temp_value;
     ifstream fin;
     ofstream fout;
     image img;
+    
 
     //Check for valid number of command line args
     if ((argc < 4) || (argc > 6))
@@ -84,15 +88,8 @@ int main(int argc, char** argv)
 
 
     fin.ignore();
-    fin >> comment;
-    while (comment == "#")
-    {
-        getline(fin, comment);
-        img.comment += "#" + comment;
-        fin >> comment;
-    }
-    img.cols = stoi(comment);
-    fin >> img.rows;
+    readHeader(img, fin);
+    
 
     if (!createArray(img.redgray, img.rows, img.cols))
     {
@@ -106,6 +103,36 @@ int main(int argc, char** argv)
     {
         return 0;
     }
+
+    if (img.magicNumber == "P3")
+    {
+        for (i = 0; i < img.rows; i++)
+        {
+            for (j = 0; j < img.cols; j++)
+            {
+                fin >> temp_value;
+                img.redgray[i][j] = temp_value;
+
+                fin >> temp_value;
+                img.green[i][j] = temp_value;
+
+                fin >> temp_value;
+                img.blue[i][j] = temp_value;
+            }
+        }
+    }
+
+    outputHeader(img, fout);
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fout << (int) img.redgray[i][j] << " ";
+            fout << (int) img.green[i][j] << " ";
+            fout << (int) img.blue[i][j] << endl;
+        }
+    }
     
     
 
@@ -115,4 +142,28 @@ int main(int argc, char** argv)
     closeFile(fin, fout);
 
     return 0;
+}
+
+void readHeader(image& img, ifstream& fin)
+{
+    string garbage;
+    string comment;
+
+    while (fin.peek() == '#') //fin.peek() == '#'
+    {
+        getline(fin, comment);
+        img.comment += comment + '\n';
+    }
+    fin >> img.cols; //fin >> cols
+    fin >> img.rows;
+
+    fin >> garbage;
+    fin.ignore();
+}
+
+void outputHeader(image img, ofstream& fout)
+{
+    fout << img.magicNumber << endl;
+    fout << img.comment;
+    fout << img.cols << " " << img.rows << endl << "255" << endl;
 }
