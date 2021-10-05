@@ -73,8 +73,15 @@ int main(int argc, char** argv)
     }
 
     basename += ".ppm";
-    if (!openFile(fin, baseimage, fout, basename))
+    if (!openinFile(fin, baseimage))
     {
+        return 0;
+    }
+
+    if (!openoutFile(fout, basename, format))
+    {
+        cout << basename << " could not be opened.";
+        closeFile(fin, fout);
         return 0;
     }
 
@@ -122,15 +129,40 @@ int main(int argc, char** argv)
         }
     }
 
+    if (format == "-oa")
+    {
+        img.magicNumber = "P3";
+    }
+    else
+    {
+        img.magicNumber = "P6";
+    }
+
     outputHeader(img, fout);
 
-    for (i = 0; i < img.rows; i++)
+    if (img.magicNumber == "P3")
     {
-        for (j = 0; j < img.cols; j++)
+        for (i = 0; i < img.rows; i++)
         {
-            fout << (int) img.redgray[i][j] << " ";
-            fout << (int) img.green[i][j] << " ";
-            fout << (int) img.blue[i][j] << endl;
+            for (j = 0; j < img.cols; j++)
+            {
+                fout << (int)img.redgray[i][j] << " ";
+                fout << (int)img.green[i][j] << " ";
+                fout << (int)img.blue[i][j] << endl;
+            }
+        }
+    }
+
+    if (img.magicNumber == "P6")
+    {
+        for (i = 0; i < img.rows; i++)
+        {
+            for (j = 0; j < img.cols; j++)
+            {
+                fout.write( ( char* ) &img.redgray[i][j], sizeof( pixel ));
+                fout.write( ( char* ) &img.green[i][j], sizeof( pixel ));
+                fout.write( ( char* ) &img.blue[i][j], sizeof( pixel ));
+            }
         }
     }
     

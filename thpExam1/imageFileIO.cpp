@@ -1,6 +1,6 @@
 #include "netPBM.h"
 
-bool openFile(ifstream& fin, string input, ofstream& fout, string output)
+bool openinFile(ifstream& fin, string input)
 {
     fin.open(input);
     if (!fin.is_open())
@@ -9,12 +9,26 @@ bool openFile(ifstream& fin, string input, ofstream& fout, string output)
         return false;
     }
 
-    fout.open(output);
-    if (!fout.is_open())
+    return true;
+}
+
+bool openoutFile(ofstream& fout, string output, string format)
+{
+    if (format == "-oa")
     {
-        cout << output << " could not be opened.";
-        fin.close();
-        return false;
+        fout.open(output);
+        if (!fout.is_open())
+        {
+            return false;
+        }
+    }
+    else
+    {
+        fout.open(output, ios::out | ios::trunc | ios::binary);
+        if (!fout.is_open())
+        {
+            return false;
+        }
     }
 
     return true;

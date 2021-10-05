@@ -18,7 +18,8 @@ struct image
     pixel **blue;
 };
 
-bool openFile(ifstream& fin, string input, ofstream& fout, string output);
+bool openinFile(ifstream& fin, string input);
+bool openoutFile(ofstream& fout, string output, string format);
 void closeFile(ifstream& fin, ofstream& fout);
 bool createArray(pixel** &array, int rows, int cols);
 void clearArray(pixel** &array, int rows);
