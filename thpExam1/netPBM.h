@@ -28,6 +28,8 @@ void readAscii(ifstream& fin, image img);
 void readBinary(ifstream& fin, image& img);
 void outputAscii(ofstream& fout, image img);
 void outputBinary(ofstream& fout, image img);
+void brighten(image& img, int value);
+void checkNum(int& num);
 
 
 #endif

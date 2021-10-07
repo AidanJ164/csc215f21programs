@@ -6,8 +6,6 @@ int main(int argc, char** argv)
     string basename;
     string baseimage;
     string format;
-    int i;
-    int j;
     int value;
     ifstream fin;
     ofstream fout;
@@ -121,6 +119,11 @@ int main(int argc, char** argv)
     else
     {
         img.magicNumber = "P6";
+    }
+
+    if (option == "-b")
+    {
+        brighten(img, value);
     }
 
     outputHeader(img, fout);
@@ -237,5 +240,17 @@ void outputBinary(ofstream& fout, image img)
             fout.write((char*)&img.green[i][j], sizeof(pixel));
             fout.write((char*)&img.blue[i][j], sizeof(pixel));
         }
+    }
+}
+
+void checkNum(int& num)
+{
+    if (num > 255)
+    {
+        num = 255;
+    }
+    if (num < 0)
+    {
+        num = 0;
     }
 }
