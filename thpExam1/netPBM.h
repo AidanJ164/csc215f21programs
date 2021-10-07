@@ -24,6 +24,8 @@ bool createArray(pixel** &array, int rows, int cols);
 void clearArray(pixel** &array, int rows);
 void readHeader(image& img, ifstream& fin);
 void outputHeader(image img, ofstream& fout);
+void readAscii(ifstream& fin, image img);
+void readBinary(ifstream& fin, image& img);
 void outputAscii(ofstream& fout, image img);
 void outputBinary(ofstream& fout, image img);
 

@@ -9,7 +9,6 @@ int main(int argc, char** argv)
     int i;
     int j;
     int value;
-    int temp_value;
     ifstream fin;
     ofstream fout;
     image img;
@@ -85,11 +84,10 @@ int main(int argc, char** argv)
         return 0;
     }
 
-
     fin.ignore();
     readHeader(img, fin);
     
-
+    // Create pixel arrays
     if (!createArray(img.redgray, img.rows, img.cols))
     {
         return 0;
@@ -103,24 +101,19 @@ int main(int argc, char** argv)
         return 0;
     }
 
+    // Read in Ascii Values
     if (img.magicNumber == "P3")
     {
-        for (i = 0; i < img.rows; i++)
-        {
-            for (j = 0; j < img.cols; j++)
-            {
-                fin >> temp_value;
-                img.redgray[i][j] = temp_value;
-
-                fin >> temp_value;
-                img.green[i][j] = temp_value;
-
-                fin >> temp_value;
-                img.blue[i][j] = temp_value;
-            }
-        }
+        readAscii(fin, img);
     }
 
+    //Read in Binary Values from image
+    if (img.magicNumber == "P6")
+    {
+        readBinary(fin, img);
+    }
+
+    // Change magic number
     if (format == "-oa")
     {
         img.magicNumber = "P3";
@@ -131,12 +124,14 @@ int main(int argc, char** argv)
     }
 
     outputHeader(img, fout);
-    
+
+    // Output Ascii Values to file
     if (img.magicNumber == "P3")
     {
         outputAscii( fout, img );
     }
    
+    // Output binary values to file
     if ( img.magicNumber == "P6" )
     {
         outputBinary( fout, img );
@@ -156,7 +151,7 @@ void readHeader(image& img, ifstream& fin)
     string garbage;
     string comment;
 
-    while (fin.peek() == '#') //fin.peek() == '#'
+    while (fin.peek() == '#')
     {
         getline(fin, comment);
         img.comment += comment + '\n';
@@ -173,6 +168,44 @@ void outputHeader(image img, ofstream& fout)
     fout << img.magicNumber << '\n';
     fout << img.comment;
     fout << img.cols << " " << img.rows << '\n' << "255" << '\n';
+}
+
+void readAscii(ifstream& fin, image img)
+{
+    int i; 
+    int j;
+    int temp_value;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fin >> temp_value;
+            img.redgray[i][j] = temp_value;
+
+            fin >> temp_value;
+            img.green[i][j] = temp_value;
+
+            fin >> temp_value;
+            img.blue[i][j] = temp_value;
+        }
+    }
+}
+
+void readBinary(ifstream& fin, image& img)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fin.read((char*)&img.redgray[i][j], sizeof(pixel));
+            fin.read((char*)&img.green[i][j], sizeof(pixel));
+            fin.read((char*)&img.blue[i][j], sizeof(pixel));
+        }
+    }
 }
 
 void outputAscii(ofstream& fout, image img)
