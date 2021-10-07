@@ -18,13 +18,14 @@ struct image
     pixel **blue;
 };
 
-bool openinFile(ifstream& fin, string input);
-bool openoutFile(ofstream& fout, string output, string format);
+bool openFile(ifstream& fin, string input, ofstream& fout, string output);
 void closeFile(ifstream& fin, ofstream& fout);
 bool createArray(pixel** &array, int rows, int cols);
 void clearArray(pixel** &array, int rows);
 void readHeader(image& img, ifstream& fin);
 void outputHeader(image img, ofstream& fout);
+void outputAscii(ofstream& fout, image img);
+void outputBinary(ofstream& fout, image img);
 
 
 #endif

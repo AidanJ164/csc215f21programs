@@ -8,7 +8,6 @@ int main(int argc, char** argv)
     string format;
     int i;
     int j;
-    int pixel;
     int value;
     int temp_value;
     ifstream fin;
@@ -73,15 +72,8 @@ int main(int argc, char** argv)
     }
 
     basename += ".ppm";
-    if (!openinFile(fin, baseimage))
+    if (!openFile(fin, baseimage, fout, basename))
     {
-        return 0;
-    }
-
-    if (!openoutFile(fout, basename, format))
-    {
-        cout << basename << " could not be opened.";
-        closeFile(fin, fout);
         return 0;
     }
 
@@ -139,33 +131,16 @@ int main(int argc, char** argv)
     }
 
     outputHeader(img, fout);
-
+    
     if (img.magicNumber == "P3")
     {
-        for (i = 0; i < img.rows; i++)
-        {
-            for (j = 0; j < img.cols; j++)
-            {
-                fout << (int)img.redgray[i][j] << " ";
-                fout << (int)img.green[i][j] << " ";
-                fout << (int)img.blue[i][j] << endl;
-            }
-        }
+        outputAscii( fout, img );
     }
-
-    if (img.magicNumber == "P6")
+   
+    if ( img.magicNumber == "P6" )
     {
-        for (i = 0; i < img.rows; i++)
-        {
-            for (j = 0; j < img.cols; j++)
-            {
-                fout.write( ( char* ) &img.redgray[i][j], sizeof( pixel ));
-                fout.write( ( char* ) &img.green[i][j], sizeof( pixel ));
-                fout.write( ( char* ) &img.blue[i][j], sizeof( pixel ));
-            }
-        }
+        outputBinary( fout, img );
     }
-    
     
 
     clearArray(img.redgray, img.rows);
@@ -195,7 +170,39 @@ void readHeader(image& img, ifstream& fin)
 
 void outputHeader(image img, ofstream& fout)
 {
-    fout << img.magicNumber << endl;
+    fout << img.magicNumber << '\n';
     fout << img.comment;
-    fout << img.cols << " " << img.rows << endl << "255" << endl;
+    fout << img.cols << " " << img.rows << '\n' << "255" << '\n';
+}
+
+void outputAscii(ofstream& fout, image img)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fout << (int)img.redgray[i][j] << " ";
+            fout << (int)img.green[i][j] << " ";
+            fout << (int)img.blue[i][j] << endl;
+        }
+    }
+}
+
+void outputBinary(ofstream& fout, image img)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fout.write((char*)&img.redgray[i][j], sizeof(pixel));
+            fout.write((char*)&img.green[i][j], sizeof(pixel));
+            fout.write((char*)&img.blue[i][j], sizeof(pixel));
+        }
+    }
 }
