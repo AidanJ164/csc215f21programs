@@ -24,3 +24,34 @@ void brighten(image& img, int value)
         }
     }
 }
+
+void negate(image& img)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            img.redgray[i][j] = 255 - img.redgray[i][j];
+            img.green[i][j] = 255 - img.green[i][j];
+            img.blue[i][j] = 255 - img.blue[i][j];
+        }
+    }
+}
+
+void grayscale(image& img)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            img.redgray[i][j] = (.3 * img.redgray[i][j])
+                + (.6 * img.green[i][j]) + (.1 * img.blue[i][j]);
+        }
+    }
+}

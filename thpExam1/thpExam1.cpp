@@ -115,15 +115,31 @@ int main(int argc, char** argv)
     if (format == "-oa")
     {
         img.magicNumber = "P3";
+        if (option == "-g")
+        {
+            img.magicNumber = "P2";
+        }
     }
     else
     {
         img.magicNumber = "P6";
+        if (option == "-g")
+        {
+            img.magicNumber = "P5";
+        }
     }
 
     if (option == "-b")
     {
         brighten(img, value);
+    }
+    else if (option == "-n")
+    {
+        negate(img);
+    }
+    else if (option == "-g")
+    {
+        grayscale(img);
     }
 
     outputHeader(img, fout);
@@ -135,9 +151,19 @@ int main(int argc, char** argv)
     }
    
     // Output binary values to file
-    if ( img.magicNumber == "P6" )
+    else if ( img.magicNumber == "P6" )
     {
         outputBinary( fout, img );
+    }
+
+    else if ( img.magicNumber == "P2" )
+    {
+        outputGrayAscii(img, fout);
+    }
+
+    else if (img.magicNumber == "P5")
+    {
+        outputGrayBinary(img, fout);
     }
     
 
@@ -252,5 +278,33 @@ void checkNum(int& num)
     if (num < 0)
     {
         num = 0;
+    }
+}
+
+void outputGrayAscii(image img, ofstream& fout)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fout << (int) img.redgray[i][j] << endl;
+        }
+    }
+}
+
+void outputGrayBinary(image img, ofstream& fout)
+{
+    int i;
+    int j;
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            fout.write((char*)&img.redgray[i][j], sizeof(pixel));
+        }
     }
 }
