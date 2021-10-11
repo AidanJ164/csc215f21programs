@@ -33,7 +33,8 @@ void outputGrayBinary(image img, ofstream& fout);
 void brighten(image& img, int value);
 void checkNum(int& num);
 void negate(image& img);
-void grayscale(image& img);
+void grayscale(image& img, double& min, double& scale);
+void contrast(image& img, double min, double scale);
 
 
 #endif

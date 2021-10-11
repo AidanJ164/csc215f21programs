@@ -41,7 +41,38 @@ void negate(image& img)
     }
 }
 
-void grayscale(image& img)
+void grayscale(image& img, double& min, double& scale)
+{
+    int i;
+    int j;
+    double max;
+
+    min = img.redgray[0][0] = (.3 * img.redgray[0][0])
+        + (.6 * img.green[0][0]) + (.1 * img.blue[0][0]);
+    max = img.redgray[0][0] = (.3 * img.redgray[0][0])
+        + (.6 * img.green[0][0]) + (.1 * img.blue[0][0]);
+
+    for (i = 0; i < img.rows; i++)
+    {
+        for (j = 0; j < img.cols; j++)
+        {
+            img.redgray[i][j] = (.3 * img.redgray[i][j])
+                + (.6 * img.green[i][j]) + (.1 * img.blue[i][j]);
+
+            if (img.redgray[i][j] < min)
+            {
+                min = img.redgray[i][j];
+            }
+            if (img.redgray[i][j] > max)
+            {
+                max = img.redgray[i][j];
+            }
+        }
+    }
+    scale = 255.0 / (max - min);
+}
+
+void contrast(image& img, double min, double scale)
 {
     int i;
     int j;
@@ -50,8 +81,7 @@ void grayscale(image& img)
     {
         for (j = 0; j < img.cols; j++)
         {
-            img.redgray[i][j] = (.3 * img.redgray[i][j])
-                + (.6 * img.green[i][j]) + (.1 * img.blue[i][j]);
+            img.redgray[i][j] = scale * ( img.redgray[i][j] - min );
         }
     }
 }

@@ -10,6 +10,8 @@ int main(int argc, char** argv)
     ifstream fin;
     ofstream fout;
     image img;
+    double min;
+    double scale;
     
 
     //Check for valid number of command line args
@@ -115,7 +117,7 @@ int main(int argc, char** argv)
     if (format == "-oa")
     {
         img.magicNumber = "P3";
-        if (option == "-g")
+        if ((option == "-g") || (option == "-c"))
         {
             img.magicNumber = "P2";
         }
@@ -123,7 +125,7 @@ int main(int argc, char** argv)
     else
     {
         img.magicNumber = "P6";
-        if (option == "-g")
+        if ((option == "-g") || (option == "-c"))
         {
             img.magicNumber = "P5";
         }
@@ -137,9 +139,13 @@ int main(int argc, char** argv)
     {
         negate(img);
     }
-    else if (option == "-g")
+    else if ((option == "-g") || (option == "-c"))
     {
-        grayscale(img);
+        grayscale(img, min, scale);
+        if (option == "-c")
+        {
+            contrast(img, min, scale);
+        }
     }
 
     outputHeader(img, fout);
