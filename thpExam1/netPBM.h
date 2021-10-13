@@ -35,6 +35,9 @@ void checkNum(int& num);
 void negate(image& img);
 void grayscale(image& img, double& min, double& scale);
 void contrast(image& img, double min, double scale);
+void sharpen(image& img);
+void smooth(image& img);
+void smoothCompute(pixel** img, pixel** arr, int i, int j);
 
 
 #endif

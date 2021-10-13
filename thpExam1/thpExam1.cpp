@@ -69,8 +69,15 @@ int main(int argc, char** argv)
         basename = argv[4];
         baseimage = argv[5];
     }
+    if ((option == "-g") || (option == "-c"))
+    {
+        basename += ".pgm";
+    }
+    else
+    {
+        basename += ".ppm";
+    }
 
-    basename += ".ppm";
     if (!openFile(fin, baseimage, fout, basename))
     {
         return 0;
@@ -146,6 +153,14 @@ int main(int argc, char** argv)
         {
             contrast(img, min, scale);
         }
+    }
+    else if (option == "-p")
+    {
+        sharpen(img);
+    }
+    else if (option == "-s")
+    {
+        smooth(img);
     }
 
     outputHeader(img, fout);
