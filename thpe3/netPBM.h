@@ -30,17 +30,20 @@ struct image
     pixel **blue; /**< Holds the blue pixel values for the image. */
 };
 
-void outputErrorMessage();
-bool openFile(ifstream& fin, string input, ofstream& fout, string output);
-void closeFile(ifstream& fin, ofstream& fout);
+enum color { RED, GREEN, BLUE };
+
+bool openFile(fstream& fin, string input);
+void closeFile(fstream& fin);
 bool createArray(pixel** &array, int rows, int cols);
 void clearArray(pixel** &array, int rows);
-void readHeader(image& img, ifstream& fin);
-void outputHeader(image img, ofstream& fout);
-void readAscii(ifstream& fin, image& img);
-void readBinary(ifstream& fin, image& img);
-void outputAscii(ofstream& fout, image img);
-void outputBinary(ofstream& fout, image img);
+void readHeader(image& img, fstream& fin);
+void outputHeader(image img, fstream& fout);
+void readAscii(fstream& fin, image& img);
+void readBinary(fstream& fin, image& img);
+void outputAscii(fstream& fout, image img);
+void outputBinary(fstream& fout, image img);
+void fill(image& img, int row, int col, int newColor[], int oldColor[]);
+bool getStartColor(image& img, int oldColor[], int row, int col);
 
 
 #endif
