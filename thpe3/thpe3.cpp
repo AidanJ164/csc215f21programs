@@ -72,7 +72,6 @@ int main(int argc, char** argv)
 
     fill(img, row, col, newColor, oldColor);
 
-
     file.seekp(ios::beg, 0);
     outputHeader(img, file);
     
@@ -288,9 +287,9 @@ void fill(image& img, int row, int col, int newColor[], int oldColor[])
         (img.redgray[row][col] != oldColor[RED]) ||
         (img.green[row][col] != oldColor[GREEN]) ||
         (img.blue[row][col] != oldColor[BLUE]) ||
-        (img.redgray[row][col] == newColor[RED]) ||
-        (img.green[row][col] == newColor[GREEN]) ||
-        (img.blue[row][col] == newColor[BLUE]))
+        ((img.redgray[row][col] == newColor[RED]) &&
+        (img.green[row][col] == newColor[GREEN]) &&
+        (img.blue[row][col] == newColor[BLUE])))
     {
         return;
     }
@@ -300,6 +299,9 @@ void fill(image& img, int row, int col, int newColor[], int oldColor[])
     img.blue[row][col] = newColor[BLUE];
 
     fill(img, row - 1, col, newColor, oldColor);
+    fill(img, row, col + 1, newColor, oldColor);
+    fill(img, row + 1, col, newColor, oldColor);
+    fill(img, row, col - 1, newColor, oldColor);
 }
 
 
