@@ -13,8 +13,6 @@
  * 
  * @param[in,out] fin - inputted .ppm image file
  * @param[in]     input - input file name
- * @param[in,out] fout - output .ppm image file
- * @param[in]     output - output file name
  * 
  * @returns true if files opened, false if files failed to open
  * 
@@ -48,7 +46,6 @@ bool openFile(fstream& fin, string input)
  * Close the open files.
  *
  * @param[in] fin - input image file
- * @param[in] fout - output image file
  *
  * @par Example
  * @verbatim

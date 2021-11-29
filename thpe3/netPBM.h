@@ -43,7 +43,7 @@ void readBinary(fstream& fin, image& img);
 void outputAscii(fstream& fout, image img);
 void outputBinary(fstream& fout, image img);
 void fill(image& img, int row, int col, int newColor[], int oldColor[]);
-bool getStartColor(image& img, int oldColor[], int row, int col);
-
+bool getStartColor(image img, int oldColor[], int row, int col);
+bool operator>>(fstream& file, image& img);
 
 #endif
