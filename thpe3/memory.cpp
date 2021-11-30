@@ -22,27 +22,27 @@
    // createArray( array, rows, cols );
    @endverbatim
  *****************************************************************************/
-bool createArray(pixel** &array, int rows, int cols)
+bool createArray( pixel** &array, int rows, int cols )
 {
     int i;
     int j;
     array = nullptr;
 
     // Create array and check if it allocates.
-    array = new (nothrow) pixel* [rows];
-    if (array == nullptr)
+    array = new ( nothrow ) pixel* [rows];
+    if ( array == nullptr )
     {
         cout << "Memory Allocation Error";
         return false;
     }
 
     // Create column arrays and check if they are valid.
-    for (i = 0; i < rows; i++)
+    for ( i = 0; i < rows; i++ )
     {
-        array[i] = new (nothrow) pixel[cols];
-        if (array[i] == nullptr)
+        array[i] = new ( nothrow ) pixel[cols];
+        if ( array[i] == nullptr )
         {
-            for (j = 0; j < i; j++)
+            for ( j = 0; j < i; j++ )
             {
                 delete[] array[j];
             }
@@ -70,12 +70,12 @@ bool createArray(pixel** &array, int rows, int cols)
    // clearArray( array, rows );
    @endverbatim
  *****************************************************************************/
-void clearArray(pixel** &array, int rows)
+void clearArray( pixel** &array, int rows )
 {
     int i;
     
     // Clear column arrays.
-    for (i = 0; i < rows; i++)
+    for ( i = 0; i < rows; i++ )
     {
         delete[] array[i];
     }

@@ -18,7 +18,7 @@ public:
     bool readInImage(string filename);
     bool writeOutImage(string filename, outputType out);
 
-    void shapen();
+    void sharpen();
     void smooth();
     void negate();
     void brighten( int value );

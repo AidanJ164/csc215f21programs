@@ -75,7 +75,7 @@
    // thpe3.exe imageFile row col redValue greenValue blueValue
    @endverbatim
  *****************************************************************************/
-int main(int argc, char** argv)
+int main( int argc, char** argv )
 {
     fstream file;
     image img;
@@ -84,7 +84,7 @@ int main(int argc, char** argv)
     int newColor[3];
     int oldColor[3];
 
-    if (argc != 7)
+    if ( argc != 7 )
     {
         cout << "Usage: thpe3.exe imageFile row col redValue greenValue blueValue"
             << endl;
@@ -96,50 +96,50 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    if (!openFile(file, argv[1]))
+    if ( !openFile( file, argv[1] ) )
     {
         return 0;
     }
 
     // Assign arguments to variables.
-    row = atoi(argv[2]);
-    col = atoi(argv[3]);
-    newColor[RED] = atoi(argv[4]);
-    newColor[GREEN] = atoi(argv[5]);
-    newColor[BLUE] = atoi(argv[6]);
+    row = atoi( argv[2] );
+    col = atoi( argv[3] );
+    newColor[RED] = atoi( argv[4] );
+    newColor[GREEN] = atoi( argv[5] );
+    newColor[BLUE] = atoi( argv[6] );
 
     // Read in image data
-    if (!(file >> img))
+    if ( !( file >> img ) )
     {
         return 0;
     }
 
     // Fill in Area
-    if (!getStartColor(img, oldColor, row, col))
+    if ( !getStartColor( img, oldColor, row, col ) )
     {
         return 0;
     }
 
-    fill(img, row, col, newColor, oldColor);
+    fill( img, row, col, newColor, oldColor );
 
-    file.seekp(ios::beg, 0);
-    outputHeader(img, file);
+    file.seekp( ios::beg, 0 );
+    outputHeader( img, file );
     
     // Write out image data
-    if (img.magicNumber == "P3")
+    if ( img.magicNumber == "P3" )
     {
-        outputAscii(file, img);
+        outputAscii( file, img );
     }
     else
     {
-        outputBinary(file, img);
+        outputBinary( file, img );
     }
 
     // Clean up the arrays and close the image
-    clearArray(img.redgray, img.rows);
-    clearArray(img.green, img.rows);
-    clearArray(img.blue, img.rows);
-    closeFile(file);
+    clearArray( img.redgray, img.rows );
+    clearArray( img.green, img.rows );
+    clearArray( img.blue, img.rows );
+    closeFile( file );
 
     return 0;
 }
@@ -160,19 +160,23 @@ int main(int argc, char** argv)
    // readHeader(img, fin);
    @endverbatim
  *****************************************************************************/
-void readHeader(image& img, fstream& fin)
+void readHeader( image& img, fstream& fin )
 {
     string garbage;
     string comment;
 
-    while (fin.peek() == '#')
+    // Look for comments
+    while ( fin.peek() == '#' )
     {
         getline(fin, comment);
         img.comment += comment + '\n';
     }
+
+    // Read in columns and rows
     fin >> img.cols;
     fin >> img.rows;
 
+    // Disregard max color value
     fin >> garbage;
     fin.ignore();
 }
@@ -192,7 +196,7 @@ void readHeader(image& img, fstream& fin)
    // outputHeader(img, fout);
    @endverbatim
  *****************************************************************************/
-void outputHeader(image img, fstream& fout)
+void outputHeader( image img, fstream& fout )
 {
     fout << img.magicNumber << '\n';
     fout << img.comment;
@@ -214,16 +218,16 @@ void outputHeader(image img, fstream& fout)
    // readAscii(fin, img);
    @endverbatim
  *****************************************************************************/
-void readAscii(fstream& fin, image& img)
+void readAscii( fstream& fin, image& img )
 {
     int i;
     int j;
     int temp_value;
 
     // Read ascii values into the image arrays.
-    for (i = 0; i < img.rows; i++)
+    for ( i = 0; i < img.rows; i++ )
     {
-        for (j = 0; j < img.cols; j++)
+        for ( j = 0; j < img.cols; j++ )
         {
             fin >> temp_value;
             img.redgray[i][j] = temp_value;
@@ -252,19 +256,19 @@ void readAscii(fstream& fin, image& img)
    // readBinary(fin, img);
    @endverbatim
  *****************************************************************************/
-void readBinary(fstream& fin, image& img)
+void readBinary( fstream& fin, image& img )
 {
     int i;
     int j;
 
     // Read binary values into the image arrays.
-    for (i = 0; i < img.rows; i++)
+    for ( i = 0; i < img.rows; i++ )
     {
-        for (j = 0; j < img.cols; j++)
+        for ( j = 0; j < img.cols; j++ )
         {
-            fin.read((char*)&img.redgray[i][j], sizeof(pixel));
-            fin.read((char*)&img.green[i][j], sizeof(pixel));
-            fin.read((char*)&img.blue[i][j], sizeof(pixel));
+            fin.read( ( char* ) &img.redgray[i][j], sizeof( pixel ) );
+            fin.read( ( char* ) &img.green[i][j], sizeof( pixel ) );
+            fin.read( ( char* ) &img.blue[i][j], sizeof( pixel ) );
         }
     }
 }
@@ -284,19 +288,19 @@ void readBinary(fstream& fin, image& img)
    // outputAscii(fout, img);
    @endverbatim
  *****************************************************************************/
-void outputAscii(fstream& fout, image img)
+void outputAscii( fstream& fout, image img )
 {
     int i;
     int j;
 
     // Write each color value to file in ascii.
-    for (i = 0; i < img.rows; i++)
+    for ( i = 0; i < img.rows; i++ )
     {
-        for (j = 0; j < img.cols; j++)
+        for ( j = 0; j < img.cols; j++ )
         {
-            fout << (int)img.redgray[i][j] << " ";
-            fout << (int)img.green[i][j] << " ";
-            fout << (int)img.blue[i][j] << endl;
+            fout << ( int )img.redgray[i][j] << " ";
+            fout << ( int )img.green[i][j] << " ";
+            fout << ( int )img.blue[i][j] << endl;
         }
     }
 }
@@ -316,19 +320,19 @@ void outputAscii(fstream& fout, image img)
    // outputBinary(fout, img);
    @endverbatim
  *****************************************************************************/
-void outputBinary(fstream& fout, image img)
+void outputBinary( fstream& fout, image img )
 {
     int i;
     int j;
 
     // Write each color value to file in binary.
-    for (i = 0; i < img.rows; i++)
+    for ( i = 0; i < img.rows; i++ ) 
     {
-        for (j = 0; j < img.cols; j++)
+        for ( j = 0; j < img.cols; j++ )
         {
-            fout.write((char*)&img.redgray[i][j], sizeof(pixel));
-            fout.write((char*)&img.green[i][j], sizeof(pixel));
-            fout.write((char*)&img.blue[i][j], sizeof(pixel));
+            fout.write( ( char* ) &img.redgray[i][j], sizeof( pixel ) );
+            fout.write( ( char* ) &img.green[i][j], sizeof( pixel ) );
+            fout.write( ( char* ) &img.blue[i][j], sizeof( pixel ) );
         }
     }
 }
@@ -353,27 +357,31 @@ void outputBinary(fstream& fout, image img)
    // fill( img, row, col, newColor, oldColor );
    @endverbatim
  *****************************************************************************/
-void fill(image& img, int row, int col, int newColor[], int oldColor[])
+void fill( image& img, int row, int col, int newColor[], int oldColor[] )
 {
-    if ((row < 0) || (row >= img.rows) || (col < 0) || (col >= img.cols) ||
-        (img.redgray[row][col] != oldColor[RED]) ||
-        (img.green[row][col] != oldColor[GREEN]) ||
-        (img.blue[row][col] != oldColor[BLUE]) ||
-        ((img.redgray[row][col] == newColor[RED]) &&
-        (img.green[row][col] == newColor[GREEN]) &&
-        (img.blue[row][col] == newColor[BLUE])))
+    // Check the base case.
+    if (( row < 0 ) || ( row >= img.rows ) || 
+        ( col < 0 ) || ( col >= img.cols ) ||
+        ( img.redgray[row][col] != oldColor[RED] ) ||
+        ( img.green[row][col] != oldColor[GREEN] ) ||
+        ( img.blue[row][col] != oldColor[BLUE] ) ||
+        (( img.redgray[row][col] == newColor[RED] ) &&
+        ( img.green[row][col] == newColor[GREEN] ) &&
+        ( img.blue[row][col] == newColor[BLUE] ) ) )
     {
         return;
     }
 
+    // Assign new pixel values
     img.redgray[row][col] = newColor[RED];
     img.green[row][col] = newColor[GREEN];
     img.blue[row][col] = newColor[BLUE];
 
-    fill(img, row - 1, col, newColor, oldColor);
-    fill(img, row, col + 1, newColor, oldColor);
-    fill(img, row + 1, col, newColor, oldColor);
-    fill(img, row, col - 1, newColor, oldColor);
+    // Fill adjacent pixels
+    fill( img, row - 1, col, newColor, oldColor );
+    fill( img, row, col + 1, newColor, oldColor );
+    fill( img, row + 1, col, newColor, oldColor );
+    fill( img, row, col - 1, newColor, oldColor );
 }
 
 
@@ -393,13 +401,15 @@ void fill(image& img, int row, int col, int newColor[], int oldColor[])
    // getStartColor( img, oldColor, row, col );
    @endverbatim
  *****************************************************************************/
-bool getStartColor(image img, int oldColor[], int row, int col)
+bool getStartColor( image img, int oldColor[], int row, int col )
 {
-    if ((row < 0) || (row > img.rows) || (col < 0) || (col > img.cols))
+    // If pixel is out of scope, return false
+    if ( (row < 0 ) || ( row > img.rows ) || ( col < 0 ) || ( col > img.cols ) )
     {
         return false;
     }
 
+    // Get starting color values
     oldColor[RED] = img.redgray[row][col];
     oldColor[GREEN] = img.green[row][col];
     oldColor[BLUE] = img.blue[row][col];
@@ -421,45 +431,45 @@ bool getStartColor(image img, int oldColor[], int row, int col)
    // file >> img;
    @endverbatim
  *****************************************************************************/
-bool operator>>(fstream& file, image& img)
+bool operator>>( fstream& file, image& img )
 {
     // Check for valid magic number.
     file >> img.magicNumber;
-    if ((img.magicNumber != "P3") && (img.magicNumber != "P6"))
+    if ( ( img.magicNumber != "P3" ) && ( img.magicNumber != "P6" ) )
     {
         cout << "Invalid Magic Numbers" << endl
             << "Valid Magic Numbers: P3 and P6";
-        closeFile(file);
+        closeFile( file );
         return false;
     }
 
     file.ignore();
-    readHeader(img, file);
+    readHeader( img, file );
 
     // Create pixel arrays
-    if (!createArray(img.redgray, img.rows, img.cols))
+    if ( !createArray( img.redgray, img.rows, img.cols ) )
     {
         return false;
     }
-    if (!createArray(img.green, img.rows, img.cols))
+    if ( !createArray( img.green, img.rows, img.cols ) )
     {
         return false;
     }
-    if (!createArray(img.blue, img.rows, img.cols))
+    if ( !createArray( img.blue, img.rows, img.cols ) )
     {
         return false;
     }
 
     // Read in Ascii Values
-    if (img.magicNumber == "P3")
+    if ( img.magicNumber == "P3" )
     {
-        readAscii(file, img);
+        readAscii( file, img );
     }
 
     //Read in Binary Values from image
     else
     {
-        readBinary(file, img);
+        readBinary( file, img );
     }
 
     return true;

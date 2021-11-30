@@ -21,22 +21,21 @@
    // openFile( fin, input, fout, output);
    @endverbatim
  *****************************************************************************/
-bool openFile(fstream& fin, string input)
+bool openFile( fstream& fin, string input )
 {
     // Open input image in binary and check if it opens.
-    fin.open(input, ios::in | ios::out | ios::binary | ios::ate);
-    if (!fin.is_open())
+    fin.open( input, ios::in | ios::out | ios::binary | ios::ate );
+    if ( !fin.is_open() )
     {
         cout << input << " could not be opened.";
         return false;
     }
 
     // Seek to the beginning of the file
-    fin.seekg(ios::beg, 0);
+    fin.seekg( ios::beg, 0 );
 
     return true;
 }
-
 
 
 /** ***************************************************************************
@@ -52,7 +51,7 @@ bool openFile(fstream& fin, string input)
    // closeFile( fin, fout );
    @endverbatim
  *****************************************************************************/
-void closeFile(fstream& fin)
+void closeFile( fstream& fin )
 {
     fin.close();
 }
