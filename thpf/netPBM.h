@@ -1,5 +1,6 @@
 #include <fstream>
 #include <string>
+#include <iostream>
 using namespace std;
 
 #ifndef __NETPBM__H__
@@ -17,6 +18,11 @@ public:
 
     bool readInImage(string filename);
     bool writeOutImage(string filename, outputType out);
+    bool writeOutGrayImage( string filename, outputType out );
+    void readHeader( ifstream& fin );
+    void readAscii( ifstream& fin );
+    void readBinary( ifstream& fin );
+    void outputHeader( ofstream& fout, string magicNum );
 
     void sharpen();
     void smooth();
@@ -44,5 +50,7 @@ private:
     pixel **green;
     pixel **blue;
 };
+
+void outputErrorMessage();
 
 #endif
