@@ -258,3 +258,20 @@ pixel netPBM::cropRound( double value )
 
     return ( pixel )value;
 }
+
+void netPBM::negate()
+{
+    int i;
+    int j;
+
+    // Negate each pixel.
+    for (i = 0; i < rows; i++)
+    {
+        for (j = 0; j < cols; j++)
+        {
+            redGray[i][j] = 255 - redGray[i][j];
+            green[i][j] = 255 - green[i][j];
+            blue[i][j] = 255 - blue[i][j];
+        }
+    }
+}

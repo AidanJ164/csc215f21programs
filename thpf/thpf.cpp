@@ -77,6 +77,7 @@ int main( int argc, char** argv )
         basename += ".ppm";
     }
 
+    // Read in the image to a class.
     if (!img.readInImage( baseimage ))
     {
         cout << "Could not read in " << baseimage;
@@ -87,6 +88,10 @@ int main( int argc, char** argv )
     if ( option == "-b" )
     {
         img.brighten( value );
+    }
+    else if ( option == "-n" )
+    {
+        img.negate();
     }
 
     if (format == "-oa")
