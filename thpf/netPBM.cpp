@@ -37,6 +37,25 @@ pixel** netPBM::alloc2d(int rows, int cols)
     return arr;
 }
 
+void netPBM::contrast()
+{
+    int i;
+    int j;
+    double min;
+    double scale;
+
+    findScale( scale, min );
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            redGray[i][j] = ( pixel ) ( scale * ( redGray[i][j] - min ) );
+        }
+    }
+
+}
+
 void netPBM::free2d( pixel** &arr, int rows )
 {
     int i;
@@ -49,6 +68,33 @@ void netPBM::free2d( pixel** &arr, int rows )
 
     // Delete the array
     delete[] arr;
+}
+
+void netPBM::findScale( double& scale, double& min )
+{
+    int i;
+    int j;
+    double max;
+
+    min = redGray[0][0];
+    max = redGray[0][0];
+
+    for (i = 0; i < rows; i++)
+    {
+        for (j = 0; j < cols; j++)
+        {
+            if ( redGray[i][j] < min )
+            {
+                min = redGray[i][j];
+            }
+            if ( redGray[i][j] > max )
+            {
+                max = redGray[i][j];
+            }
+        }
+    }
+
+    scale = 255.0 / ( max - min );
 }
 
 bool netPBM::readInImage( string filename )
@@ -219,6 +265,38 @@ bool netPBM::writeOutGrayImage( string filename, outputType out )
     int j;
     ofstream fout;
 
+    fout.open( filename, ios::out | ios::trunc | ios::binary );
+    if (!fout.is_open())
+    {
+        return false;
+    }
+
+    if (out == ASCII)
+    {
+        outputHeader( fout, "P2" );
+
+        for (i = 0; i < rows; i++)
+        {
+            for (j = 0; j < cols; j++)
+            {
+                fout << ( int )redGray[i][j] << endl;
+            }
+        }
+    }
+    else
+    {
+        outputHeader( fout, "P5" );
+
+        for (i = 0; i < rows; i++)
+        {
+            for (j = 0; j < cols; j++ ) 
+            {
+                fout.write( ( char* ) &redGray[i][j], sizeof( pixel ) );
+            }
+        }
+    }
+
+    fout.close();
     return true;
 }
 
@@ -243,6 +321,10 @@ void netPBM::brighten( int value )
             blue[i][j] = cropRound( temp_value );
         }
     }
+}
+
+void netPBM::flipy()
+{
 }
 
 pixel netPBM::cropRound( double value )
@@ -272,6 +354,21 @@ void netPBM::negate()
             redGray[i][j] = 255 - redGray[i][j];
             green[i][j] = 255 - green[i][j];
             blue[i][j] = 255 - blue[i][j];
+        }
+    }
+}
+
+void netPBM::grayscale()
+{
+    int i;
+    int j;
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            redGray[i][j] = (pixel) (( .3 * redGray[i][j] ) + ( .6 * green[i][j] )
+                + ( .1 * blue[i][j] ));
         }
     }
 }

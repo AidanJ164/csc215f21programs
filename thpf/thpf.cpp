@@ -93,21 +93,43 @@ int main( int argc, char** argv )
     {
         img.negate();
     }
+    else if ( ( option == "-g" ) || (option == "-c") )
+    {
+        img.grayscale();
+        if (option == "-c")
+        {
+            
+        }
+    }
 
     if (format == "-oa")
     {
-        if(!img.writeOutImage( basename, netPBM::ASCII ))
+        if ( (option == "-g") || (option == "-c") )
         {
-            cout << "Could not open " << basename;
-            return 0;
+            img.writeOutGrayImage( basename, netPBM::ASCII );
+        }
+        else
+        {
+            if(!img.writeOutImage( basename, netPBM::ASCII ))
+            {
+                cout << "Could not open " << basename;
+                return 0;
+            }
         }
     }
     else
     {
-        if (!img.writeOutImage( basename, netPBM::RAW ))
+        if ( ( option == "-g" ) || ( option == "-c" ) )
         {
-            cout << "Could not open " << basename;
-            return 0;
+            img.writeOutGrayImage( basename, netPBM::RAW);
+        }
+        else
+        {
+            if ( !img.writeOutImage( basename, netPBM::RAW ) )
+            {
+                cout << "Could not open " << basename;
+                return 0;
+            }
         }
     }
 

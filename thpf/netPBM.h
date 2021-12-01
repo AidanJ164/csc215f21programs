@@ -40,6 +40,7 @@ protected:
     pixel cropRound( double value );
     pixel** alloc2d( int rows, int cols );
     void free2d( pixel**& ptr, int rows );
+    void findScale( double& scale, double& min );
 
 private:
     int rows;
