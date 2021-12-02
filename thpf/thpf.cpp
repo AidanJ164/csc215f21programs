@@ -98,8 +98,16 @@ int main( int argc, char** argv )
         img.grayscale();
         if (option == "-c")
         {
-            
+            img.contrast();
         }
+    }
+    else if ( option == "-p" )
+    {
+        img.sharpen();
+    }
+    else if ( option == "-s" )
+    {
+        img.smooth();
     }
 
     if (format == "-oa")
