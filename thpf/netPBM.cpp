@@ -121,10 +121,42 @@ void netPBM::findScale( double& scale, double& min )
     scale = 255.0 / ( max - min );
 }
 
+void netPBM::flipx()
+{
+    int i;
+    int j;
+    int mid;
 
+    mid = rows / 2;
+
+    for ( j = 0; j < cols; j++ )
+    {
+        for ( i = 0; i < mid; i++ )
+        {
+            swap( redGray[i][j], redGray[rows - 1 - i][j] );
+            swap( green[i][j], green[rows - 1 - i][j] );
+            swap( blue[i][j], blue[rows - 1 - i][j] );
+        }
+    }
+}
 
 void netPBM::flipy()
 {
+    int i;
+    int j;
+    int mid;
+
+    mid = cols / 2;
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < mid; j++ )
+        {
+            swap( redGray[i][j], redGray[i][cols - 1 - j] );
+            swap( green[i][j], green[i][cols - 1 - j] );
+            swap( blue[i][j], blue[i][cols - 1 - j] );
+        }
+    }
 }
 
 void netPBM::free2d( pixel** &arr, int rows )

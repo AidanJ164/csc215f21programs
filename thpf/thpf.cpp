@@ -35,8 +35,9 @@ int main( int argc, char** argv )
     {
         if ( !( ( strcmp( argv[1], "-n" ) == 0 ) || ( strcmp( argv[1], "-p" ) == 0 )
             || ( strcmp( argv[1], "-s" ) == 0 ) || ( strcmp( argv[1], "-g" ) == 0 )
-            || ( strcmp( argv[1], "-c" ) == 0 ) || ( strcmp( argv[1], "-b" ) == 0 ) &&
-            !( ( strcmp( argv[2], "-oa" ) == 0 ) || ( strcmp( argv[2], "-ob" ) == 0 ) ) ) )
+            || ( strcmp( argv[1], "-c" ) == 0 ) || ( strcmp( argv[1], "-b" ) == 0 )
+            || ( strcmp( argv[1], "-x" ) == 0 ) || ( strcmp( argv[1], "-y" ) == 0 ) ) &&
+            !( ( strcmp( argv[2], "-oa" ) == 0 ) || ( strcmp( argv[2], "-ob" ) == 0 ) ) ) 
         {
             outputErrorMessage();
             return 0;
@@ -109,6 +110,14 @@ int main( int argc, char** argv )
     {
         img.smooth();
     }
+    else if ( option == "-x" )
+    {
+        img.flipx();
+    }
+    else if (option == "-y" )
+    {
+        img.flipy();
+    }
 
     if (format == "-oa")
     {
@@ -161,5 +170,5 @@ void outputErrorMessage()
     cout << "Option" << endl << "-n   Negate" << endl;
     cout << "-b # Brighten" << endl << "-p   Sharpen" << endl;
     cout << "-s   Smooth" << endl << "-g   Grayscale" << endl;
-    cout << "-c   Contrast" << endl;
+    cout << "-c   Contrast" << endl << "-x   Flip X" << endl;
 }
