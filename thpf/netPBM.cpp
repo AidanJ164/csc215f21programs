@@ -2,7 +2,34 @@
 
 netPBM::netPBM()
 {
+    rows = 0;
+    cols = 0;
+}
 
+netPBM::netPBM( netPBM& img )
+{
+    int i;
+    int j;
+
+    rows = img.rows;
+    cols = img.cols;
+    comments = img.comments;
+
+    // Allocate new arrays
+    redGray = alloc2d( rows, cols );
+    green = alloc2d( rows, cols );
+    blue = alloc2d( rows, cols );
+
+    // Fill arrays
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            redGray[i][j] = img.redGray[i][j];
+            green[i][j] = img.green[i][j];
+            blue[i][j] = img.blue[i][j];
+        }
+    }
 }
 
 netPBM::~netPBM()
@@ -77,7 +104,7 @@ void netPBM::contrast()
             redGray[i][j] = ( pixel ) ( scale * ( redGray[i][j] - min ) );
         }
     }
-
+    cout << "pingus" << endl;
 }
 
 pixel netPBM::cropRound( double value )
@@ -188,6 +215,11 @@ void netPBM::grayscale()
     }
 }
 
+void icon( int row, int col, int height, int width )
+{
+    
+}
+
 void netPBM::negate()
 {
     int i;
@@ -203,6 +235,67 @@ void netPBM::negate()
             blue[i][j] = 255 - blue[i][j];
         }
     }
+}
+
+void netPBM::operator=( netPBM img )
+{
+    int i;
+    int j;
+
+    // Free existing arrays
+    free2d( redGray, rows );
+    free2d( green, rows );
+    free2d( blue, rows );
+
+    rows = img.rows;
+    cols = img.cols;
+    comments = img.comments;
+
+    // Allocate new arrays
+    redGray = alloc2d( rows, cols );
+    green = alloc2d( rows, cols );
+    blue = alloc2d( rows, cols );
+
+    // Fill arrays
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            redGray[i][j] = img.redGray[i][j];
+            green[i][j] = img.green[i][j];
+            blue[i][j] = img.blue[i][j];
+        }
+    }
+}
+
+bool netPBM::operator==( netPBM img2 )
+{
+    int i;
+    int j;
+
+    if ( (rows != img2.rows) || (cols != img2.cols) )
+    {
+        return false;
+    }
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            if ( ( redGray[i][j] != img2.redGray[i][j] ) ||
+                 ( green[i][j] != img2.green[i][j] ) ||
+                 ( blue [i][j] != img2.blue[i][j] ) )
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool netPBM::operator!=( netPBM img )
+{
+
 }
 
 void netPBM::outputHeader( ofstream& fout, string magicNum )
@@ -319,6 +412,8 @@ bool netPBM::readInImage( string filename )
     fin.close();
     return true;
 }
+
+
 
 void netPBM::sharpen()
 {

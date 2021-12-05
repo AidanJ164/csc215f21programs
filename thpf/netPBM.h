@@ -12,6 +12,7 @@ class netPBM
 {
 public:
     netPBM();
+    netPBM( netPBM &img );
     ~netPBM();
 
     enum outputType{ ASCII, RAW };
@@ -35,6 +36,10 @@ public:
     void flipx();
     void flipy();
     void icon(int row, int col, int height, int width);
+
+    bool operator==( netPBM img2 );
+    void operator=( netPBM img2 );
+    bool operator!=( netPBM img );
 
 protected:
     pixel cropRound( double value );

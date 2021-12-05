@@ -10,6 +10,7 @@ int main( int argc, char** argv )
     ifstream fin;
     ofstream fout;
     netPBM img;
+    netPBM img2;
 
     //Check for valid number of command line args
     if ( ( argc < 4 ) || ( argc > 6 ) )
@@ -36,7 +37,8 @@ int main( int argc, char** argv )
         if ( !( ( strcmp( argv[1], "-n" ) == 0 ) || ( strcmp( argv[1], "-p" ) == 0 )
             || ( strcmp( argv[1], "-s" ) == 0 ) || ( strcmp( argv[1], "-g" ) == 0 )
             || ( strcmp( argv[1], "-c" ) == 0 ) || ( strcmp( argv[1], "-b" ) == 0 )
-            || ( strcmp( argv[1], "-x" ) == 0 ) || ( strcmp( argv[1], "-y" ) == 0 ) ) &&
+            || ( strcmp( argv[1], "-x" ) == 0 ) || ( strcmp( argv[1], "-y" ) == 0 ) 
+            || ( strcmp( argv[1], "-==" ) == 0 ) ) &&
             !( ( strcmp( argv[2], "-oa" ) == 0 ) || ( strcmp( argv[2], "-ob" ) == 0 ) ) ) 
         {
             outputErrorMessage();
@@ -117,6 +119,21 @@ int main( int argc, char** argv )
     else if (option == "-y" )
     {
         img.flipy();
+    }
+    else if (option == "-==" )
+    {
+        // Used to show off == operator.
+        img2 = img;
+
+        if ( img == img2 )
+        {
+            cout << "Images are the same" << endl;
+        }
+
+        img.writeOutImage( "Balloons1.ppm", netPBM::ASCII );
+        img2.writeOutImage( "Balloons2.ppm", netPBM::ASCII );
+
+        return 0;
     }
 
     if (format == "-oa")
