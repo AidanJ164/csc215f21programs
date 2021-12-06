@@ -2,18 +2,24 @@
 
 int main( int argc, char** argv )
 {
+    string color;
     string option;
     string basename;
     string baseimage;
     string format;
+    int col;
+    int row;
+    int height;
+    int width;
     int value;
     ifstream fin;
     ofstream fout;
     netPBM img;
     netPBM img2;
 
+
     //Check for valid number of command line args
-    if ( ( argc < 4 ) || ( argc > 6 ) )
+    if ( ( argc < 4 ) || ( ( argc > 6 ) && ( argc < 9 ) ) || ( argc > 9 ) )
     {
         outputErrorMessage();
         return 0;
@@ -56,19 +62,43 @@ int main( int argc, char** argv )
         baseimage = argv[4];
     }
     //Check if 6 args has valid options
-    else
+    else if ( argc == 6 )
     {
         if ( !( ( strcmp( argv[3], "-oa" ) == 0 ) || ( strcmp( argv[3], "-ob" ) == 0 )
-            || ( strcmp( argv[1], "-b" ) != 0 ) ) )
+            || ( ( strcmp( argv[1], "-b" ) != 0 )  && ( strcmp( argv[1], "-r" ) != 0 ) ) ) )
         {
             outputErrorMessage();
             return 0;
         }
         option = argv[1];
-        value = atoi( argv[2] );
+        if (option == "-b")
+        {
+            value = atoi( argv[2] );
+        }
+        else 
+        {
+            color = argv[2];
+        }
         format = argv[3];
         basename = argv[4];
         baseimage = argv[5];
+    }
+    else
+    {
+        if ( !( ( strcmp( argv[6], "-oa" ) == 0 ) || ( strcmp( argv[6], "-ob" ) == 0 ) )
+            || ( strcmp( argv[1], "-i" ) != 0 ) )
+        {
+            outputErrorMessage();
+                return 0;
+        }
+        option = argv[1];
+        height = atoi( argv[2] );
+        width = atoi( argv[3] );
+        row = atoi( argv[4] );
+        col = atoi( argv[5] );
+        format = argv[6];
+        basename = argv[7];
+        baseimage = argv[8];
     }
 
     // Add the file extension to the basename.
@@ -143,6 +173,10 @@ int main( int argc, char** argv )
     else if ( option == "-CCW" )
     {
         img.rotateCCW();
+    }
+    else if ( option == "-i" )
+    {
+        img.icon( row, col, height, width );
     }
     else if (option == "-!=" )
     {

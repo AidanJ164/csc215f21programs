@@ -215,15 +215,57 @@ void netPBM::grayscale()
     }
 }
 
-/*
-netPBM netPBM::icon( int row, int col, int height, int width )
-{
-    netPBM img;
 
-    img.rows = height;
-    img.cols = width;
+void netPBM::icon( int row, int col, int height, int width )
+{
+    int i;
+    int j;
+    netPBM temp;
+
+    if ( height > rows )
+    {
+        height = rows;
+        row = 0;
+    }
+    if ( width > cols )
+    {
+        width = cols;
+        col = 0;
+    }
+
+    temp = *this;
+    
+    free2d( redGray, rows );
+    free2d( green, rows );
+    free2d( blue, rows );
+
+    rows = height;
+    cols = width;
+
+    redGray = alloc2d( rows, cols );
+    green = alloc2d( rows, cols );
+    blue = alloc2d( rows, cols );
+
+    if ( ( height + row ) > temp.rows )
+    {
+        row = temp.rows - height;
+    }
+    if ( ( width + col ) > temp.cols )
+    {
+        col = temp.cols - width;
+    }
+
+    for ( i = 0; i < height; i++ )
+    {
+        for ( j = 0; j < width; j++ )
+        {
+            redGray[i][j] = temp.redGray[row + i][col + j];
+            green[i][j] = temp.green[row + i][col + j];
+            blue[i][j] = temp.blue[row + i][col + j];
+        }
+    }
 }
-*/
+
 
 void netPBM::negate()
 {
@@ -416,6 +458,10 @@ bool netPBM::readInImage( string filename )
 
     fin.close();
     return true;
+}
+
+void netPBM::removeColor( string color )
+{
 }
 
 void netPBM::rotateCW()

@@ -35,7 +35,8 @@ public:
     void rotateCCW();
     void flipx();
     void flipy();
-    netPBM icon(int row, int col, int height, int width);
+    void removeColor( string color );
+    void icon(int row, int col, int height, int width);
 
     void operator=( netPBM img2 );
     bool operator==( netPBM img2 );
