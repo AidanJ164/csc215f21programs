@@ -38,7 +38,8 @@ int main( int argc, char** argv )
             || ( strcmp( argv[1], "-s" ) == 0 ) || ( strcmp( argv[1], "-g" ) == 0 )
             || ( strcmp( argv[1], "-c" ) == 0 ) || ( strcmp( argv[1], "-b" ) == 0 )
             || ( strcmp( argv[1], "-x" ) == 0 ) || ( strcmp( argv[1], "-y" ) == 0 ) 
-            || ( strcmp( argv[1], "-==" ) == 0 ) ) &&
+            || ( strcmp( argv[1], "-==" ) == 0 ) || ( strcmp(argv[1], "-!=") == 0 ) 
+            || ( strcmp( argv[1], "-CW" ) == 0 ) || ( strcmp(argv[1], "-CCW" )== 0 ) ) &&
             !( ( strcmp( argv[2], "-oa" ) == 0 ) || ( strcmp( argv[2], "-ob" ) == 0 ) ) ) 
         {
             outputErrorMessage();
@@ -130,11 +131,38 @@ int main( int argc, char** argv )
             cout << "Images are the same" << endl;
         }
 
-        img.writeOutImage( "Balloons1.ppm", netPBM::ASCII );
-        img2.writeOutImage( "Balloons2.ppm", netPBM::ASCII );
+        img.writeOutImage( "Balloons1.ppm", netPBM::RAW );
+        img2.writeOutImage( "Balloons2.ppm", netPBM::RAW );
 
         return 0;
     }
+    else if ( option == "-CW" )
+    {
+        img.rotateCW();
+    }
+    else if ( option == "-CCW" )
+    {
+        img.rotateCCW();
+    }
+    else if (option == "-!=" )
+    {
+        // Used to show off != operator.
+        img2 = img;
+
+        cout << "Flipping image and comparing it to the original." << endl;
+        img2.flipx();
+
+        if ( img != img2 )
+        {
+            cout << "Images are not the same" << endl;
+        }
+
+        img.writeOutImage( "Balloons1.ppm", netPBM::RAW );
+        img2.writeOutImage( "Balloons2.ppm", netPBM::RAW );
+
+        return 0;
+    }
+    
 
     if (format == "-oa")
     {
@@ -188,4 +216,5 @@ void outputErrorMessage()
     cout << "-b # Brighten" << endl << "-p   Sharpen" << endl;
     cout << "-s   Smooth" << endl << "-g   Grayscale" << endl;
     cout << "-c   Contrast" << endl << "-x   Flip X" << endl;
+    cout << "-y   Flip Y" << endl;
 }

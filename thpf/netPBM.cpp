@@ -215,10 +215,15 @@ void netPBM::grayscale()
     }
 }
 
-void icon( int row, int col, int height, int width )
+/*
+netPBM netPBM::icon( int row, int col, int height, int width )
 {
-    
+    netPBM img;
+
+    img.rows = height;
+    img.cols = width;
 }
+*/
 
 void netPBM::negate()
 {
@@ -295,7 +300,7 @@ bool netPBM::operator==( netPBM img2 )
 
 bool netPBM::operator!=( netPBM img )
 {
-
+    return !( *this == img );
 }
 
 void netPBM::outputHeader( ofstream& fout, string magicNum )
@@ -413,7 +418,63 @@ bool netPBM::readInImage( string filename )
     return true;
 }
 
+void netPBM::rotateCW()
+{
+    int i;
+    int j;
+    netPBM img;
 
+    img = *this;
+
+    free2d( redGray, rows );
+    free2d( green, rows );
+    free2d( blue, rows );
+
+    swap( rows, cols );
+
+    redGray = alloc2d( rows, cols );
+    green = alloc2d( rows, cols );
+    blue = alloc2d( rows, cols );
+
+    for ( i = 0; i < img.rows; i++ )
+    {
+        for ( j = 0; j < img.cols; j++ )
+        {
+            redGray[j][cols - 1 - i] = img.redGray[i][j];
+            green[j][cols - 1 - i] = img.green[i][j];
+            blue[j][cols - 1 - i] = img.blue[i][j];
+        }
+    }
+}
+
+void netPBM::rotateCCW()
+{
+    int i;
+    int j;
+    netPBM img;
+
+    img = *this;
+
+    free2d( redGray, rows );
+    free2d( green, rows );
+    free2d( blue, rows );
+
+    swap( rows, cols );
+
+    redGray = alloc2d( rows, cols );
+    green = alloc2d( rows, cols );
+    blue = alloc2d( rows, cols );
+
+    for ( i = 0; i < img.rows; i++ )
+    {
+        for ( j = 0; j < img.cols; j++ )
+        {
+            redGray[rows - 1 - j][i] = img.redGray[i][j];
+            green[rows - 1 - j][i] = img.green[i][j];
+            blue[rows - 1 - j][i] = img.blue[i][j];
+        }
+    }
+}
 
 void netPBM::sharpen()
 {

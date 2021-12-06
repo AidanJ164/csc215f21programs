@@ -35,10 +35,10 @@ public:
     void rotateCCW();
     void flipx();
     void flipy();
-    void icon(int row, int col, int height, int width);
+    netPBM icon(int row, int col, int height, int width);
 
-    bool operator==( netPBM img2 );
     void operator=( netPBM img2 );
+    bool operator==( netPBM img2 );
     bool operator!=( netPBM img );
 
 protected:
