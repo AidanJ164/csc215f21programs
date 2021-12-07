@@ -11,8 +11,6 @@
  * @par Description
  * Constructor for the netPBM class.
  *
- * @returns nothing
- *
  * @par Example
  * @verbatim
    // netPBM img;
@@ -25,6 +23,7 @@ netPBM::netPBM()
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -33,8 +32,6 @@ netPBM::netPBM()
  * existing netPBM image to a new one.
  *
  * @param[in]  img - existing netPBM image to copy
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -68,14 +65,13 @@ netPBM::netPBM( netPBM& img )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
  * @par Description
  * The deconstructor for the netPBM class. It frees up the dynamically
  * allocated arrays that are stored in the private section.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -88,6 +84,7 @@ netPBM::~netPBM()
     free2d( green, rows );
     free2d( blue, rows );
 }
+
 
 
 /** ***************************************************************************
@@ -133,6 +130,7 @@ pixel** netPBM::alloc2d(int rows, int cols)
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -141,8 +139,6 @@ pixel** netPBM::alloc2d(int rows, int cols)
  * to them. Also checks to see if the new value exceeds 255 or is below 0.
  *
  * @param[in]  value - integer to be added to each pixel.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -173,14 +169,13 @@ void netPBM::brighten( int value )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
  * @par Description
  * Find the contrast of the input image. It subtracts the min value from the 
  * gray pixel and the multiplies it by the scale.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -205,6 +200,7 @@ void netPBM::contrast()
         }
     }
 }
+
 
 
 /** ***************************************************************************
@@ -239,6 +235,7 @@ pixel netPBM::cropRound( double value )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -249,8 +246,6 @@ pixel netPBM::cropRound( double value )
  *
  * @param[in,out] scale - 255 / ( max - min )
  * @param[in,out] min - minimum grayscale value in the img.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -287,14 +282,13 @@ void netPBM::findScale( double& scale, double& min )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
  * @par Description
  * Flips the images along the x-axis. It goes from column to column, swapping
  * the two opposite rows.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -323,15 +317,14 @@ void netPBM::flipx()
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
  * @par Description
  * Flips the image along the y-axis. It goes from row to row, swapping the 
  * opposite columns.
- *
- * @returns nothing
- *
+ * 
  * @par Example
  * @verbatim
    // img.flipy();
@@ -359,6 +352,7 @@ void netPBM::flipy()
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -367,8 +361,6 @@ void netPBM::flipy()
  *
  * @param[in,out] arr - pointer to the array to be deleted.
  * @param[in]     rows - amount of rows in the array.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -390,6 +382,7 @@ void netPBM::free2d( pixel** &arr, int rows )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -397,8 +390,6 @@ void netPBM::free2d( pixel** &arr, int rows )
  * Converts the image to grayscale. It multiplies the red pixel by .3, the 
  * green by .6, and blue by .1, then add them all together to get the gray
  * pixel value.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -422,6 +413,7 @@ void netPBM::grayscale()
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -433,8 +425,6 @@ void netPBM::grayscale()
  * @param[in]  col - column to start from
  * @param[in]  height - height of the icon
  * @param[in]  width - width of the the icon
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -499,14 +489,13 @@ void netPBM::icon( int row, int col, int height, int width )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
  * @par Description
  * Negates each pixel stored in the image. It takes each pixel and subtracts it
  * from the max color value, 255.
-
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -531,6 +520,7 @@ void netPBM::negate()
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -538,8 +528,6 @@ void netPBM::negate()
  * Overload the = operator to easily set to netPBM images equal.
  *
  * @param[in]  img - existing netPBM image.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -577,6 +565,7 @@ void netPBM::operator=( netPBM img )
         }
     }
 }
+
 
 
 /** ***************************************************************************
@@ -623,6 +612,7 @@ bool netPBM::operator==( netPBM img )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -645,6 +635,7 @@ bool netPBM::operator!=( netPBM img )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -653,8 +644,6 @@ bool netPBM::operator!=( netPBM img )
  *
  * @param[in,out]  fout - output file to write to.    
  * @param[in]      magicNum - magic number to write to file.
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -669,6 +658,7 @@ void netPBM::outputHeader( ofstream& fout, string magicNum )
 }
 
 
+
 /** ***************************************************************************
  * @author Aidan Justice
  *
@@ -676,8 +666,6 @@ void netPBM::outputHeader( ofstream& fout, string magicNum )
  * Read in the data from a P3 .ppm image.
  *
  * @param[in,out]  fin - input file to read from
- *
- * @returns nothing
  *
  * @par Example
  * @verbatim
@@ -1023,7 +1011,7 @@ void netPBM::rotateCCW()
  *
  * @par Description
  * Sharpens the image. Creates a temporary image and sets it equal to the 
- * original. Then computes each pixels sharpened values.
+ * original, then computes each pixels sharpened values.
  *
  * @par Example
  * @verbatim
@@ -1078,17 +1066,12 @@ void netPBM::sharpen()
  * @author Aidan Justice
  *
  * @par Description
- *
- *
- * @param[in]     var1 - a description of variable one.
- * @param[out]    var2 - a description of variable two.
- * @param[in,out] var3 - a description of variable three.
- *
- * @returns true if successful and false otherwise.
+ * Smooths the image. Creates a temporary image and sets it equal to original
+ * image, then computes each smoothed value.
  *
  * @par Example
  * @verbatim
-   // provide a small snippet on calling your function and the results
+   // img.smooth();
    @endverbatim
  *****************************************************************************/
 void netPBM::smooth()
@@ -1139,18 +1122,38 @@ void netPBM::smooth()
     }
 }
 
+
+
+/** ***************************************************************************
+ * @author Aidan Justice
+ *
+ * @par Description
+ * Write out a grayscaled image to a .pgm file.
+ *
+ * @param[in]  filename - file to be opened and written to.
+ * @param[in]  out - specifies whether to write in binary or ascii.
+ *
+ * @returns true if successful and false otherwise.
+ *
+ * @par Example
+ * @verbatim
+   // img.writeOutGrayImage( filename, netPBM::RAW );
+   @endverbatim
+ *****************************************************************************/
 bool netPBM::writeOutGrayImage( string filename, outputType out )
 {
     int i;
     int j;
     ofstream fout;
 
+    // Open file and check for success.
     fout.open( filename, ios::out | ios::trunc | ios::binary );
     if ( !fout.is_open() )
     {
         return false;
     }
 
+    // Output to ascii.
     if ( out == ASCII )
     {
         outputHeader( fout, "P2" );
@@ -1163,6 +1166,7 @@ bool netPBM::writeOutGrayImage( string filename, outputType out )
             }
         }
     }
+    // Output to binary.
     else
     {
         outputHeader( fout, "P5" );
@@ -1180,18 +1184,38 @@ bool netPBM::writeOutGrayImage( string filename, outputType out )
     return true;
 }
 
+
+
+/** ***************************************************************************
+ * @author Aidan Justice
+ *
+ * @par Description
+ * Write out an image to a .ppm file.
+ *
+ * @param[in]  filename - file to be opened and written to.
+ * @param[in]  out - specifies whether to write in binary or ascii.
+ *
+ * @returns true if successful and false otherwise.
+ *
+ * @par Example
+ * @verbatim
+   // img.writeOutImage( filename, netPBM::RAW );
+   @endverbatim
+ *****************************************************************************/
 bool netPBM::writeOutImage( string filename, outputType out )
 {
     int i;
     int j;
     ofstream fout;
 
+    // Open file and check for success.
     fout.open( filename, ios::out | ios::trunc | ios::binary );
     if ( !fout.is_open() )
     {
         return false;
     }
 
+    // Output to ascii.
     if (out == ASCII)
     {
         outputHeader( fout, "P3" );
@@ -1207,6 +1231,7 @@ bool netPBM::writeOutImage( string filename, outputType out )
             }
         }
     }
+    // Output to binary.
     else
     {
         outputHeader( fout, "P6" );

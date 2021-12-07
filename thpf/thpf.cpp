@@ -44,7 +44,7 @@
     -y Flip y      - flips the image across the y-axis
     -i Icon        - creates an icon
     -r Remove      - sets the given color to 0 for each pixel.
-  * @endverbatim
+   @endverbatim
   *
   * @section compile_section Compiling and Usage
   *
@@ -81,7 +81,7 @@
   *
   * @bug None
   *
-  * @todo Documentation
+  * @todo None
   *
   * @par Modifications and Development Timeline:
   * This is a link to gitlab's commit as an example. To view <a target="_blank"
