@@ -1,17 +1,127 @@
+/** **************************************************************************
+ * @file
+ ****************************************************************************/
+ /** **************************************************************************
+  * @mainpage Final Program
+  *
+  * @section course_section Course Information
+  *
+  * @author Aidan Justice
+  *
+  * @par Professor:
+  *         Prof. Roger Schrader
+  *
+  * @par Course:
+  *         CSC215 - M001 - Programming Techniques
+  *
+  * @par Location:
+  *         McLaury - 207
+  *
+  * @date Due October 15, 2021
+  *
+  * @section program_section Program Information
+  *
+  * @details
+  * This program will take a .ppm image file and convert it to either
+  * ascii or binary format. It changes the output type then copies the header
+  * from the original image to the new image. You can also apply options to
+  * manipulate the image.
+  * 
+  * @verbatim
+    There are 12 options to apply to the image:
+    -p Sharpen     - will subtract the neighboring pixels from the center pixel 
+                  multiplied by 5.
+    -s Smooth      - takes the average of each pixel and its neighbors.
+    -n Negate      - takes each pixel value and subtracts it from the max value.
+    -b Brighten    - takes each pixel and adds the user given value to it.
+    -g Grayscale   - takes each color pixel and combines them into a single 
+                  grayscale pixel.
+    -c Contrast    - grayscales the image and subtracts the minimum value from 
+                  each pixel and then multiplies it by the scale
+    -CW Clockwise  - rotates the image clockwise
+    -CCW CounterCW - rotates the image counterclockwise
+    -x Flip x      - flips the image across the x-axis
+    -y Flip y      - flips the image across the y-axis
+    -i Icon        - creates an icon
+    -r Remove      - sets the given color to 0 for each pixel.
+  * @endverbatim
+  *
+  * @section compile_section Compiling and Usage
+  *
+  * @par Compiling Instructions:
+  *      none - a straight compile and link with no external libraries.
+  *
+  * @par Usage:
+    @verbatim
+    c:\> thpf.exe [option] -o[ab] basename image.ppm
+            Option          Option Name
+              -n            Negate
+              -b #          Brighten
+              -p            Sharpen
+              -s            Smooth
+              -g            Grayscale
+              -c            Contrast
+              -CW           Clockwise
+              -CCW          Counterclockwise
+              -x            Flip x
+              -y            Flip y
+              -i h w r c    Icon
+                   h - Height of icon
+                   w - Width of icon
+                   r - starting row
+                   c - starting column
+              -r [r,g,b]    Remove
+            -oa - Convert image to ascii format
+            -ob - Convert image to binary format
+            basename  - output image name
+            image.ppm - input image
+    @endverbatim
+  *
+  * @section todo_bugs_modification_section Todo, Bugs, and Modifications
+  *
+  * @bug None
+  *
+  * @todo Documentation
+  *
+  * @par Modifications and Development Timeline:
+  * This is a link to gitlab's commit as an example. To view <a target="_blank"
+  * href="https://gitlab.cse.sdsmt.edu/101066736/csc215f21programs/-/commits/master">click here.</a>
+  *
+  *****************************************************************************/
+
 #include "netPBM.h"
 
+/** ***************************************************************************
+ * @author Aidan Justice
+ * 
+ * @par Description 
+ * Main function of the program used to call other functions. Takes .ppm 
+ * images, reads them into netPBM class, applies an option, and then writes
+ * the image back out into either a .ppm image or a .pgm image if it is a
+ * grayscaled image.
+ * 
+ * @param[in]    argc - number of arguments given.
+ * @param[in]    argv - 2d char array that stores the arguments.
+ * 
+ * @returns nothing
+ * 
+ * @par Example
+ * @verbatim
+   // thpf.exe [option] -o[ab] basename image.ppm
+   @endverbatim
+ *****************************************************************************/
 int main( int argc, char** argv )
 {
     string color;
-    string option;
-    string basename;
-    string baseimage;
     string format;
+    string baseimage;
+    string basename;
+    string option;
     int col;
-    int row;
     int height;
-    int width;
+    int row;
     int value;
+    int width;
     ifstream fin;
     ofstream fout;
     netPBM img;
@@ -24,6 +134,7 @@ int main( int argc, char** argv )
         outputErrorMessage();
         return 0;
     }
+
     //Check if 4 args has valid options
     if ( argc == 4 )
     {
@@ -37,6 +148,7 @@ int main( int argc, char** argv )
         basename = argv[2];
         baseimage = argv[3];
     }
+
     //Check if 5 args has valid options
     else if ( ( argc == 5 ) )
     {
@@ -61,6 +173,7 @@ int main( int argc, char** argv )
         basename = argv[3];
         baseimage = argv[4];
     }
+
     //Check if 6 args has valid options
     else if ( argc == 6 )
     {
@@ -83,6 +196,8 @@ int main( int argc, char** argv )
         basename = argv[4];
         baseimage = argv[5];
     }
+
+    // Check 9 arguments
     else
     {
         if ( !( ( strcmp( argv[6], "-oa" ) == 0 ) || ( strcmp( argv[6], "-ob" ) == 0 ) )
@@ -151,21 +266,6 @@ int main( int argc, char** argv )
     {
         img.flipy();
     }
-    else if (option == "-==" )
-    {
-        // Used to show off == operator.
-        img2 = img;
-
-        if ( img == img2 )
-        {
-            cout << "Images are the same" << endl;
-        }
-
-        img.writeOutImage( "Balloons1.ppm", netPBM::RAW );
-        img2.writeOutImage( "Balloons2.ppm", netPBM::RAW );
-
-        return 0;
-    }
     else if ( option == "-CW" )
     {
         img.rotateCW();
@@ -193,9 +293,24 @@ int main( int argc, char** argv )
             img.removeBlue();
         }
     }
+    // Used to show off == operator.
+    else if ( option == "-==" )
+    {
+        img2 = img;
+
+        if ( img == img2 )
+        {
+            cout << "Images are the same" << endl;
+        }
+
+        img.writeOutImage( "Balloons1.ppm", netPBM::RAW );
+        img2.writeOutImage( "Balloons2.ppm", netPBM::RAW );
+
+        return 0;
+    }
+    // Used to show off != operator.
     else if (option == "-!=" )
     {
-        // Used to show off != operator.
         img2 = img;
 
         cout << "Flipping image and comparing it to the original." << endl;
@@ -212,7 +327,7 @@ int main( int argc, char** argv )
         return 0;
     }
     
-
+    // Write out images in ascii.
     if (format == "-oa")
     {
         if ( (option == "-g") || (option == "-c") )
@@ -228,11 +343,15 @@ int main( int argc, char** argv )
             }
         }
     }
+    // Write out images in binary.
     else
     {
         if ( ( option == "-g" ) || ( option == "-c" ) )
         {
-            img.writeOutGrayImage( basename, netPBM::RAW);
+            if ( !img.writeOutGrayImage( basename, netPBM::RAW) )
+            {
+                cout << "Could not open " << basename;
+            }
         }
         else
         {
@@ -260,10 +379,27 @@ int main( int argc, char** argv )
  *****************************************************************************/
 void outputErrorMessage()
 {
-    cout << "Usage: thpf.exe [option] -o[ab] basename image.ppm" << endl;
-    cout << "Option" << endl << "-n   Negate" << endl;
-    cout << "-b # Brighten" << endl << "-p   Sharpen" << endl;
-    cout << "-s   Smooth" << endl << "-g   Grayscale" << endl;
-    cout << "-c   Contrast" << endl << "-x   Flip X" << endl;
-    cout << "-y   Flip Y" << endl;
+    cout << "Usage: thpf.exe [option] -o[ab] basename image.ppm" << endl <<
+        "Option" << endl << 
+        " -n            Negate" << endl <<
+        " -b #          Brighten" << endl <<
+        " -p            Sharpen" << endl <<
+        " -s            Smooth" << endl <<
+        " -g            Grayscale" << endl <<
+        " -c            Contrast" << endl <<
+        " -CW           Clockwise" << endl <<
+        " -CCW          Counterclockwise" << endl <<
+        " -x            Flip x" << endl <<
+        " -y            Flip y" << endl <<
+        " -r [r,g,b]    Remove" << endl <<
+        "      [r,g,b] - red, green, blue" << endl <<
+        " -i h w r c    Icon" << endl <<
+        "      h - Height of icon" << endl <<
+        "      w - Width of icon" << endl <<
+        "      r - starting row" << endl <<
+        "      c - starting column" << endl <<
+        "-oa - Convert image to ascii format" << endl <<
+        "-ob - Convert image to binary format" << endl <<
+        "basename  - output image name" << endl <<
+        "image.ppm - input image" << endl;
 }

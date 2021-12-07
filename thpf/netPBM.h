@@ -41,7 +41,7 @@ public:
     void icon(int row, int col, int height, int width);
 
     void operator=( netPBM img2 );
-    bool operator==( netPBM img2 );
+    bool operator==( netPBM img );
     bool operator!=( netPBM img );
 
 protected:
@@ -49,9 +49,6 @@ protected:
     pixel** alloc2d( int rows, int cols );
     void free2d( pixel**& ptr, int rows );
     void findScale( double& scale, double& min );
-    void sharpenCompute( pixel** img, pixel** temp, int i, int j );
-    void smoothCompute( pixel** img, pixel** temp, int i, int j );
-    
 
 private:
     int rows;
