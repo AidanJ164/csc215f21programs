@@ -460,9 +460,48 @@ bool netPBM::readInImage( string filename )
     return true;
 }
 
-void netPBM::removeColor( string color )
+void netPBM::removeBlue()
 {
+    int i;
+    int j;
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            blue[i][j] = 0;
+        }
+    }
 }
+
+void netPBM::removeGreen()
+{
+    int i;
+    int j;
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            green[i][j] = 0;
+        }
+    }
+}
+
+void netPBM::removeRed()
+{
+    int i;
+    int j;
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            redGray[i][j] = 0;
+        }
+    }
+}
+
 
 void netPBM::rotateCW()
 {

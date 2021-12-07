@@ -178,6 +178,21 @@ int main( int argc, char** argv )
     {
         img.icon( row, col, height, width );
     }
+    else if (option == "-r" )
+    {
+        if ( color == "r" )
+        {
+            img.removeRed();
+        }
+        else if ( color == "g" )
+        {
+            img.removeGreen();
+        }
+        else
+        {
+            img.removeBlue();
+        }
+    }
     else if (option == "-!=" )
     {
         // Used to show off != operator.

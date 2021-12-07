@@ -35,7 +35,9 @@ public:
     void rotateCCW();
     void flipx();
     void flipy();
-    void removeColor( string color );
+    void removeRed();
+    void removeGreen();
+    void removeBlue();
     void icon(int row, int col, int height, int width);
 
     void operator=( netPBM img2 );
@@ -49,6 +51,7 @@ protected:
     void findScale( double& scale, double& min );
     void sharpenCompute( pixel** img, pixel** temp, int i, int j );
     void smoothCompute( pixel** img, pixel** temp, int i, int j );
+    
 
 private:
     int rows;
