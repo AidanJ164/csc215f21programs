@@ -17,7 +17,7 @@
   * @par Location:
   *         McLaury - 207
   *
-  * @date Due October 15, 2021
+  * @date Due December 7, 2021
   *
   * @section program_section Program Information
   *
@@ -44,8 +44,11 @@
     -y Flip y      - flips the image across the y-axis
     -i Icon        - creates an icon
     -r Remove      - sets the given color to 0 for each pixel.
+    -bl Blur       - applies a horizontal blur to the image.
    @endverbatim
   *
+  * If grayscale or contrast is chosen, it will output a .pgm file.
+  * 
   * @section compile_section Compiling and Usage
   *
   * @par Compiling Instructions:
@@ -65,6 +68,7 @@
               -CCW          Counterclockwise
               -x            Flip x
               -y            Flip y
+              -bl           Blur
               -i h w r c    Icon
                    h - Height of icon
                    w - Width of icon
@@ -390,7 +394,7 @@ int main( int argc, char** argv )
 void outputErrorMessage()
 {
     cout << "Usage: thpf.exe [option] -o[ab] basename image.ppm" << endl <<
-        "Option" << endl << 
+        "Option" << endl <<
         " -n            Negate" << endl <<
         " -b #          Brighten" << endl <<
         " -p            Sharpen" << endl <<
@@ -401,6 +405,7 @@ void outputErrorMessage()
         " -CCW          Counterclockwise" << endl <<
         " -x            Flip x" << endl <<
         " -y            Flip y" << endl <<
+        " -bl           Blur" << endl <<
         " -r [r,g,b]    Remove" << endl <<
         "      [r,g,b] - red, green, blue" << endl <<
         " -i h w r c    Icon" << endl <<
