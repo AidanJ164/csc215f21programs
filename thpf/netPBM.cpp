@@ -135,6 +135,60 @@ pixel** netPBM::alloc2d(int rows, int cols)
  * @author Aidan Justice
  *
  * @par Description
+ * Takes each pixel value, the 3 pixels to the left, and the 3 pixels to the 
+ * right and finds the average of the 7 pixels to simulate a  horizonta 
+ * blurred effect.
+ *
+ * @par Example
+ * @verbatim
+   // img.blur();
+   @endverbatim
+ *****************************************************************************/
+void netPBM::blur()
+{
+    int i;
+    int j;
+    netPBM temp;
+
+    temp = *this;
+
+    for ( i = 0; i < rows; i++ )
+    {
+        for ( j = 0; j < cols; j++ )
+        {
+            // Set border pixels to 0;
+            if ( ( j < 3 ) || ( j > cols - 4 ) )
+            {
+                redGray[i][j] = 0;
+                green[i][j] = 0;
+                blue[i][j] = 0;
+            }
+            // Compute average of adjacent pixels.
+            else
+            {
+                redGray[i][j] = ( temp.redGray[i][j - 3] + temp.redGray[i][j - 2]
+                    + temp.redGray[i][j - 1] + temp.redGray[i][j] 
+                    + temp.redGray[i][j + 1] + temp.redGray[i][j + 2] 
+                    + temp.redGray[i][j + 3] ) / 7;
+                green[i][j] = ( temp.green[i][j - 3] + temp.green[i][j - 2]
+                    + temp.green[i][j - 1] + temp.green[i][j]
+                    + temp.green[i][j + 1] + temp.green[i][j + 2]
+                    + temp.green[i][j + 3] ) / 7;
+                blue[i][j] = ( temp.blue[i][j - 3] + temp.blue[i][j - 2]
+                    + temp.blue[i][j - 1] + temp.blue[i][j]
+                    + temp.blue[i][j + 1] + temp.blue[i][j + 2]
+                    + temp.blue[i][j + 3] ) / 7;
+            }
+        }
+    }
+}
+
+
+
+/** ***************************************************************************
+ * @author Aidan Justice
+ *
+ * @par Description
  * Using the user's given value, it runs through each pixel adding the value
  * to them. Also checks to see if the new value exceeds 255 or is below 0.
  *

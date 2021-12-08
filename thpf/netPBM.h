@@ -57,6 +57,7 @@ class netPBM
         void removeGreen();
         void removeBlue();
         void icon(int row, int col, int height, int width);
+        void blur();
 
         void operator=( netPBM img2 );
         bool operator==( netPBM img );

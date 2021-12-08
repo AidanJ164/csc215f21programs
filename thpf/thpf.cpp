@@ -157,7 +157,8 @@ int main( int argc, char** argv )
             || ( strcmp( argv[1], "-c" ) == 0 ) || ( strcmp( argv[1], "-b" ) == 0 )
             || ( strcmp( argv[1], "-x" ) == 0 ) || ( strcmp( argv[1], "-y" ) == 0 ) 
             || ( strcmp( argv[1], "-==" ) == 0 ) || ( strcmp(argv[1], "-!=") == 0 ) 
-            || ( strcmp( argv[1], "-CW" ) == 0 ) || ( strcmp(argv[1], "-CCW" )== 0 ) ) &&
+            || ( strcmp( argv[1], "-CW" ) == 0 ) || ( strcmp(argv[1], "-CCW" )== 0 ) 
+            || ( strcmp( argv[1], "-bl" ) == 0 ) ) &&
             !( ( strcmp( argv[2], "-oa" ) == 0 ) || ( strcmp( argv[2], "-ob" ) == 0 ) ) ) 
         {
             outputErrorMessage();
@@ -216,6 +217,7 @@ int main( int argc, char** argv )
         baseimage = argv[8];
     }
 
+
     // Add the file extension to the basename.
     if ( ( option == "-g" ) || ( option == "-c" ) )
     {
@@ -226,12 +228,14 @@ int main( int argc, char** argv )
         basename += ".ppm";
     }
 
-    // Read in the image to a class.
+
+    // Read in the image to the class.
     if (!img.readInImage( baseimage ))
     {
         cout << "Could not read in " << baseimage;
         return 0;
     }
+
 
     // Apply option to image
     if ( option == "-b" )
@@ -278,7 +282,7 @@ int main( int argc, char** argv )
     {
         img.icon( row, col, height, width );
     }
-    else if (option == "-r" )
+    else if ( option == "-r" )
     {
         if ( color == "r" )
         {
@@ -293,6 +297,11 @@ int main( int argc, char** argv )
             img.removeBlue();
         }
     }
+    else if ( option == "-bl" )
+    {
+        img.blur();
+    }
+
     // Used to show off == operator.
     else if ( option == "-==" )
     {
@@ -327,6 +336,7 @@ int main( int argc, char** argv )
         return 0;
     }
     
+
     // Write out images in ascii.
     if (format == "-oa")
     {
